@@ -6,6 +6,7 @@ export class CarsController extends BaseController {
     super('api/cars')
     this.router
       .get('', this.getAllCars)
+      .get('/search', this.getCarsByQuery)
       .get('/:carId', this.getCarById)
   }
   /**
@@ -32,6 +33,20 @@ export class CarsController extends BaseController {
       const carId = request.params.carId
       const car = await carsService.getCarById(carId)
       response.send(car)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * @param {import("express").Request} request
+   * @param {import("express").Response} response
+   * @param {import("express").NextFunction} next
+   */
+  async getCarsByQuery(request, response, next) {
+    try {
+      const cars = await carsService.getCarsByQuery()
+      response.send(cars)
     } catch (error) {
       next(error)
     }

@@ -2,6 +2,7 @@ import { BadRequest } from "@bcwdev/auth0provider/lib/Errors.js"
 import { dbContext } from "../db/DbContext.js"
 
 class CarsService {
+
   async getAllCars() {
     const cars = await dbContext.Cars.find().populate('creator')
     return cars
@@ -12,6 +13,10 @@ class CarsService {
       throw new BadRequest(`${carId} is not a valid car id!`)
     }
     return car
+  }
+  async getCarsByQuery() {
+    const cars = await dbContext.Cars.find({ make: 'Mazda' }).populate('creator')
+    return cars
   }
 }
 
