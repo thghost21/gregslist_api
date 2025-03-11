@@ -26,3 +26,11 @@ export const CarSchema = new Schema(
     timestamps: true
   }
 )
+
+// NOTE virtual properties do not exist in the database
+// creator is the name of the virtual property
+CarSchema.virtual('creator', {
+  ref: 'Account', // which collection am I looking through
+  localField: 'creatorId', // what do I have on my schema that I can use to get something from the other collection
+  foreignField: '_id', // what will my localField match in the referenced (ref) collection
+})
