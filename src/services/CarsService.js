@@ -14,9 +14,39 @@ class CarsService {
     }
     return car
   }
-  async getCarsByQuery() {
-    const cars = await dbContext.Cars.find({ make: 'Mazda' }).populate('creator')
-    return cars
+  async getCarsByQuery(carQuery) {
+    const pageNumber = parseInt(carQuery.page) || 1
+    const carLimit = 5
+    const skipAmount = pageNumber * carLimit - carLimit
+    delete carQuery.page
+
+    const sortBy = carQuery.sortBy
+    delete carQuery.sortBy
+
+    const carsCount = await dbContext.Cars.countDocuments(carQuery)
+    const totalPages = Math.ceil(carsCount / carLimit) || 1
+
+    if (pageNumber > totalPages) {
+      throw new BadRequest(`${pageNumber} is greater than the total amount of pages (${totalPages})`)
+    }
+
+    // const cars = await dbContext.Cars.find({ make: ['Mazda', 'Subaru'] }).populate('creator')
+    const cars = await dbContext.Cars
+      .find(carQuery)
+      .limit(carLimit)
+      .skip(skipAmount)
+      .sort(sortBy)
+      .populate('creator')
+
+
+    const responseObj = {
+      currentPage: pageNumber,
+      cars: cars,
+      totalCars: carsCount,
+      totalPages: totalPages
+    }
+
+    return responseObj
   }
 }
 
