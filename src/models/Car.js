@@ -35,4 +35,5 @@ CarSchema.virtual('creator', {
   ref: 'Account', // which collection am I looking through
   localField: 'creatorId', // what do I have on my schema that I can use to get something from the other collection
   foreignField: '_id', // what will my localField match in the referenced (ref) collection
+  justOne: true
 })
