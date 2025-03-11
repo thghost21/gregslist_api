@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { AccountSchema } from '../models/Account.js'
 import { CarSchema } from '../models/Car.js';
 import { HouseSchema } from '../models/House.js';
-import { JobSchema as JobSchema } from '../models/Jobs.js';
+import { JobSchema } from '../models/Jobs.js';
 import { PetSchema } from '../models/Pet.js';
 
 class DbContext {
