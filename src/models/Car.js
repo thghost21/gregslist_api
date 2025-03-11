@@ -23,7 +23,9 @@ export const CarSchema = new Schema(
   // schema options
   {
     // adds updatedAt and createdAt timestamps for each car in database
-    timestamps: true
+    timestamps: true,
+    // allows us to send virtual properties over the network
+    toJSON: { virtuals: true }
   }
 )
 
